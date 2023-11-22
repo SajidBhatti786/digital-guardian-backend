@@ -1,6 +1,9 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const Parent = require("../models/userModel");
+const { ParentModel, ChildModel } = require("../models/userModel");
+// const Parent = require("../models/userModel");
+
+// Now you can use ParentModel and ChildModel in this file
 const jWT_SECRET = process.env.JWT_SECRET;
 
 // Login API
@@ -17,7 +20,7 @@ const login = async (req, res) => {
   }
 
   // Find the user in the database
-  const user = await Parent.findOne({ email: username }).lean();
+  const user = await ParentModel.findOne({ email: username }).lean();
   console.log(user);
 
   if (!user) {
@@ -60,7 +63,7 @@ const login = async (req, res) => {
 const register = async (req, res) => {
   try {
     console.log("req body:", req.body);
-    let { email, contact, password } = req.body;
+    let { name, email, contact, password } = req.body;
 
     // console.log("Uploaded image details:", {
     //   fieldname: my_image.fieldname,
@@ -71,7 +74,7 @@ const register = async (req, res) => {
     // });
 
     //checking if user already exists
-    const user = await Parent.findOne({ email: email });
+    const user = await ParentModel.findOne({ email: email });
     if (user) {
       return res
         .status(400)
@@ -83,7 +86,8 @@ const register = async (req, res) => {
 
     // Upload image to Cloudinary
 
-    let response = await Parent.create({
+    let response = await ParentModel.create({
+      name: name,
       email: email,
       contact: contact,
       password: password,

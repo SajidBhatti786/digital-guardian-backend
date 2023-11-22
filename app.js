@@ -17,10 +17,12 @@ const startServer = async () => {
     await connectToDatabase();
     // Require routes (move this to routes/authRoutes.js and routes/userRoutes.js)
     const authRoutes = require("./routes/authRoutes");
+    const childRoutes = require("./routes/childRoutes");
     // const userRoutes = require("./routes/userRoutes");
 
     // Use routes
     app.use("/api/auth", authRoutes);
+    app.use("/api", childRoutes);
     // app.use("/api/user", userRoutes);
 
     app.listen(port, () => {
