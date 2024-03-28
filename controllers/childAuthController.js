@@ -32,7 +32,7 @@ const createChild = async (req, res) => {
 
     return res
       .status(201)
-      .json({ message: "Child created successfully", child });
+      .json({  status: 200 , message: "Child created successfully", child : {name: child.name, username: child.username}});
   } catch (error) {
     console.error("Error:", error);
     return res.status(500).json({ message: "Server error" });

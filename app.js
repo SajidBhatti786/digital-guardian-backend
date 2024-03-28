@@ -4,7 +4,7 @@ const cors = require("cors");
 const path = require("path");
 const { connectToDatabase } = require("./config/database");
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5500;
 require("dotenv").config();
 
 app.use(express.static(path.join(__dirname, "static")));
@@ -19,12 +19,14 @@ const startServer = async () => {
     const authRoutes = require("./routes/authRoutes");
     const childRoutes = require("./routes/childRoutes");
     const parentRoutes = require("./routes/parentRoutes");
+    const locationRoutes = require("./routes/locationRoutes");
     // const userRoutes = require("./routes/userRoutes");
 
     // Use routes
     app.use("/api/auth", authRoutes);
     app.use("/api", childRoutes);
     app.use("/api", parentRoutes);
+    app.use("/api/location", locationRoutes);
     // app.use("/api/user", userRoutes);
 
     app.listen(port, () => {

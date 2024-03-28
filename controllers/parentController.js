@@ -6,7 +6,8 @@ const getAllChildren = async (req, res) => {
     // Extract parent ID from the decoded token
     const parentId = req.decoded.id;
 
-    const children = await ChildModel.find({ parent: parentId });
+    const children = await ChildModel.find({ parent: parentId }, '_id name username');
+
 
     if (children.length === 0) {
       return res
@@ -14,10 +15,10 @@ const getAllChildren = async (req, res) => {
         .json({ message: "No children found for this parent" });
     }
 
-    return res.status(200).json({ children });
+    return res.status(200).json({status: 200, children });
   } catch (error) {
     console.error("Error:", error);
-    return res.status(500).json({ message: "Failed to retrieve children" });
+    return res.status(500).json({ status: 200, message: "Failed to retrieve children" });
   }
 };
 

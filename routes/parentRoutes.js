@@ -5,7 +5,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 const parentController = require("../controllers/parentController");
 
 router.get(
-  "/parent/get-all-Children",
+  "/parent/get-all-children",
   authMiddleware.verifyToken,
   parentController.getAllChildren
 );
