@@ -9,22 +9,37 @@ exports.addLocation = async (req, res) => {
         return res.status(400).json({ error: 'Child ID is required' });
     }   
     const existingLocation = await Location.findOne({ child: childId });
-        if (existingLocation) {
-            return res.status(400).json({ error: 'Location already added for this child, can only be updated' });
-        }
+        // if (existingLocation) {
+        //     return res.status(400).json({ error: 'Location already added for this child, can only be updated' });
+        // }
     const {  latitude, longitude, latitudeDelta, longitudeDelta } = req.body;
     if(!latitude || !latitudeDelta || !latitudeDelta || !longitudeDelta){
         return res.status(400).json({ error: 'Latitude, longitude, latitudeDelta and longitudeDelta are required' });
     }
     try {
-        const location = await Location.create({
-            child: childId,
+        if(existingLocation){
+            // Find the location associated with the child ID
+        const location = await Location.findOneAndUpdate({ child: childId }, {
             latitude,
             longitude,
             latitudeDelta,
             longitudeDelta
-        });
-        return res.status(201).json({ message: 'Location added successfully', location });
+        }, { new: true });
+
+        return res.status(200).json({ message: 'Location updated successfully', location });
+
+        }else{
+            const location = await Location.create({
+                child: childId,
+                latitude,
+                longitude,
+                latitudeDelta,
+                longitudeDelta
+            });
+            return res.status(201).json({ message: 'Location added successfully', location });
+
+        }
+       
     } catch (error) {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
