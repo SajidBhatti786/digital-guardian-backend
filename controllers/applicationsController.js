@@ -3,29 +3,28 @@ const Application = require('../models/applicationsModel');
 // Add new application
 async function addApplications(req, res) {
     const childId = req.decoded.id;
-    console.log(req.body)
     console.log(childId);
     
     if(!req.body){
-        return res.status(400).json({ error: 'All fields are required' });
+        return res.status(400).json({ message: 'No applications provided' });
     }
     try {
         // Check if applications already exist for the child
-        // const existingApps = await Application.findOne({ child: childId });
+        const existingApps = await Application.findOne({ child: childId });
         
-        // if (existingApps) {
-        //     // If applications exist, update them
-        //     existingApps.applications = req.body;
-        //     await existingApps.save();
-        //     return res.status(200).json({ message: "Applications updated successfully", applications: existingApps });
-        // } else {
+        if (existingApps) {
+            // If applications exist, update them
+            existingApps.applications = req.body;
+            await existingApps.save();
+            return res.status(200).json({ message: "Applications updated successfully", applications: existingApps });
+        } else {
             // If applications don't exist, create them
             const newApplications = await Application.create({
                 child: childId,
                 applications: req.body
             });
             return res.status(201).json({ message: 'Applications added successfully', applications: newApplications });
-        // }
+        }
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: 'Failed to add/update applications' });
