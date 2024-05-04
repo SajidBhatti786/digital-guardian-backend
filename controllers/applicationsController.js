@@ -3,6 +3,7 @@ const Application = require('../models/applicationsModel');
 // Add new application
 async function addApplications(req, res) {
     const childId = req.decoded.id;
+    console.log(req.body)
     console.log(childId);
     
     
