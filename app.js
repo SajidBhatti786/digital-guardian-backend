@@ -8,7 +8,7 @@ const port = process.env.PORT || 5500;
 require("dotenv").config();
 
 app.use(express.static(path.join(__dirname, "static")));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors());
 
 // Connect to the database before starting the server
