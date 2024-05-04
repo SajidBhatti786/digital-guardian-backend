@@ -17,7 +17,7 @@ router.put(
   router.get(
     "/get-apps/:childId",
     authMiddleware.verifyParent,
-    locationController.getLocation
+    applicationsController.getApplicationsForChildRef
   );
 // router.post("/child/login", childAuthController.loginChild); // Changed this line
 

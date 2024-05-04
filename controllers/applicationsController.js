@@ -44,10 +44,16 @@ async function updateApplication(id, label, icon, usageTime) {
 }
 
 // Get applications for a specific ChildRef
-async function getApplicationsForChildRef(childRefId) {
+async function getApplicationsForChildRef(req,res) {
     try {
-        const applications = await Application.find({ childRef: childRefId });
-        return applications;
+        const childId = req.params.childId;
+        const applications = await Application.find({ child: childId });
+        console.log("applications: ",applications);
+       if(applications){
+        return res.status(200).json({ message: "Applications retrieved successfully", applications: applications });
+       }else{
+        return res.status(404).json({ message: "No applications found for ChildRef" });
+       }
     } catch (error) {
         throw new Error('Failed to get applications for ChildRef');
     }
