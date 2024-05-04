@@ -6,7 +6,9 @@ async function addApplications(req, res) {
     console.log(req.body)
     console.log(childId);
     
-    
+    if(!req.body){
+        return res.status(400).json({ error: 'All fields are required' });
+    }
     try {
         // Check if applications already exist for the child
         // const existingApps = await Application.findOne({ child: childId });
