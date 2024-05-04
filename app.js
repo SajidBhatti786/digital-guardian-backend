@@ -20,6 +20,8 @@ const startServer = async () => {
     const childRoutes = require("./routes/childRoutes");
     const parentRoutes = require("./routes/parentRoutes");
     const locationRoutes = require("./routes/locationRoutes");
+    const geoFencingRoutes = require("./routes/geoFencingRoutes");
+    const applicationRoutes = require("./routes/applicationRoutes");
     // const userRoutes = require("./routes/userRoutes");
 
     // Use routes
@@ -27,6 +29,9 @@ const startServer = async () => {
     app.use("/api", childRoutes);
     app.use("/api", parentRoutes);
     app.use("/api/location", locationRoutes);
+    app.use("/api/geo-fencing", geoFencingRoutes);
+    app.use("/api/apps", applicationRoutes);
+    
     // app.use("/api/user", userRoutes);
 
     app.listen(port, () => {

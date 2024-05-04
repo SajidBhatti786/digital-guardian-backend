@@ -43,7 +43,11 @@ const verifyParent = async (req, res, next) => {
             return res.status(400).json({ message: "Child ID is required" });
         }
 
-        const child = await ChildModel.findById(childId);
+        try{
+          var child = await ChildModel.findById(childId);
+        }catch(err){
+          return res.status(400).json({ message: "Invalid child ID" });
+        }
         if (!child || child.parent.toString() !== parent._id.toString()) {
             return res.status(401).json({ message: "Access denied. Child does not belong to the parent" });
         }
