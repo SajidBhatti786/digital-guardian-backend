@@ -7,14 +7,21 @@ const app = express();
 const port = process.env.PORT || 5500;
 require("dotenv").config();
 
+
 app.use(express.static(path.join(__dirname, "static")));
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors());
+
+
 
 // Connect to the database before starting the server
 const startServer = async () => {
   try {
     await connectToDatabase();
+
+   
+
+
     // Require routes (move this to routes/authRoutes.js and routes/userRoutes.js)
     const authRoutes = require("./routes/authRoutes");
     const childRoutes = require("./routes/childRoutes");
@@ -22,6 +29,7 @@ const startServer = async () => {
     const locationRoutes = require("./routes/locationRoutes");
     const geoFencingRoutes = require("./routes/geoFencingRoutes");
     const applicationRoutes = require("./routes/applicationRoutes");
+    const cameraRoutes = require("./routes/cameraRoutes");
     // const userRoutes = require("./routes/userRoutes");
 
     // Use routes
@@ -31,6 +39,7 @@ const startServer = async () => {
     app.use("/api/location", locationRoutes);
     app.use("/api/geo-fencing", geoFencingRoutes);
     app.use("/api/apps", applicationRoutes);
+    app.use("/api/camera", cameraRoutes);
     
     // app.use("/api/user", userRoutes);
 
