@@ -15,7 +15,12 @@ cloudinary.config({
 
 // Set up Multer for handling file uploads
 const storage = multer.memoryStorage(); // Store files in memory as buffers
-const upload = multer({ storage: storage });
+const upload = multer({ 
+    storage: storage,
+    limits: {
+      fileSize: 10 * 1024 * 1024, // 5 MB (in bytes)
+    },
+  });
 
 // Function to upload a single file to Cloudinary
 const uploadSingleFile = async (file) => {
