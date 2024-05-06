@@ -18,8 +18,10 @@ const storage = multer.memoryStorage(); // Store files in memory as buffers
 const upload = multer({ 
     storage: storage,
     limits: {
-      fileSize: 10 * 1024 * 1024, // 5 MB (in bytes)
-    },
+        fileSize: 10 * 1024 * 1024, // Adjust the file size limit as needed (e.g., 10 MB)
+        fields: 1, // Limit the number of non-file fields in a multipart form
+        fieldSize: 1024 * 1024, // Adjust the field size limit as needed (e.g., 1 MB)
+      },
   });
 
 // Function to upload a single file to Cloudinary
