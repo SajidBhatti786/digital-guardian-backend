@@ -1,23 +1,24 @@
 const Camera = require("../models/cameraModel");
 const cloudinary = require("cloudinary");
-const {uploadSingleFile, uploadSingleFileFromURI} = require("../utils/fileUploadUtil");
+const {uploadSingleFile} = require("../utils/fileUploadUtil");
 //add a photo
 exports.addPhoto = async (req, res) => {
     let childId = req.decoded.id
 
 
-
   if (!childId) {
     return res.status(400).json({ error: "Child ID is required" });
   }
-  
+  if (!req.file) {
+    return res.status(400).json({ error: "Image is required" });
+  }
   try {
    
+    console.log("file: ",req.file)
    
-    const { uri } = req.body;
   
       // Upload the new profile image to Cloudinary
-      const newImage = await uploadSingleFileFromURI(uri);
+      const newImage = await uploadSingleFile(req.file);
       console.log(newImage);
       // Update the user's profile image URL in the database
         const camera = await Camera.create({
