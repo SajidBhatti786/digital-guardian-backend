@@ -25,6 +25,46 @@ const upload = multer({
   });
 
 // Function to upload a single file to Cloudinary
+
+const uploadSingleFileFromURI = async (uri) => {
+  try {
+    // Fetch the image data from the URI
+    const response = await axios.get(uri, {
+      responseType: "arraybuffer" // Ensure binary response
+    });
+
+    // Create a buffer from the image data
+    const imageBuffer = Buffer.from(response.data, "binary");
+
+    // Upload the image buffer to Cloudinary
+    const result = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        {
+          folder: "images",
+        },
+        (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        }
+      );
+
+      stream.write(imageBuffer);
+      stream.end();
+    });
+
+    return {
+      imageUrl: result.secure_url,
+      publicId: result.public_id,
+    };
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to upload file from URI to Cloudinary");
+  }
+};
+
 const uploadSingleFile = async (file) => {
   try {
     const result = await new Promise((resolve, reject) => {
@@ -101,6 +141,7 @@ const uploadMultipleMiddleware = upload.array("images"); // Middleware for multi
 module.exports = {
   uploadSingleFile,
   uploadMultipleFiles,
+  uploadSingleFileFromURI,
   uploadSingleMiddleware,
   uploadMultipleMiddleware,
 };
