@@ -30,6 +30,7 @@ const startServer = async () => {
     const geoFencingRoutes = require("./routes/geoFencingRoutes");
     const applicationRoutes = require("./routes/applicationRoutes");
     const cameraRoutes = require("./routes/cameraRoutes");
+    const screencastRoutes = require("./routes/screencastRoutes");
     // const userRoutes = require("./routes/userRoutes");
 
     // Use routes
@@ -40,6 +41,7 @@ const startServer = async () => {
     app.use("/api/geo-fencing", geoFencingRoutes);
     app.use("/api/apps", applicationRoutes);
     app.use("/api/camera", cameraRoutes);
+    app.use("/api/screencast", screencastRoutes);
     
     // app.use("/api/user", userRoutes);
 
